@@ -1,0 +1,40 @@
+
+
+/* Center the map-container on the page */
+.map-container {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.9); /* Light background */
+  border-radius: 15px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  padding: 20px;
+  max-width: 700px; /* Maximum width */
+  width: 90%; /* Responsive width */
+}
+
+
+/* Heading styling */
+h2 {
+  margin-bottom: 15px;
+  font-size: 2rem;
+  color: #1f4037;
+}
+
+/* Map image container styling */
+.map-image-container {
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+/* Map image styling */
+.map-image {
+  width: 100%;
+  height: auto;
+  border: 2px solid #1f4037;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.map-container:hover .map-image {
+  transform: scale(1.05);
+  transition: transform 0.3s ease-in-out;
+}

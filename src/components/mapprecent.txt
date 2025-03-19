@@ -1,0 +1,129 @@
+import React, { useEffect, useRef } from "react";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
+
+// Fix for default Leaflet icon not showing
+import markerIcon from "leaflet/dist/images/marker-icon.png";
+import markerShadow from "leaflet/dist/images/marker-shadow.png";
+import currentLocationMarker from "./icons/current-location.svg";
+
+const LiveLocationWithMarker = () => {
+  const mapRef = useRef(null); // Reference for the map instance
+  const markerRef = useRef(null); // Reference for the marker instance
+
+  useEffect(() => {
+    // Set default icon explicitly
+    const DefaultIcon = L.icon({
+      iconUrl: markerIcon,
+      shadowUrl: markerShadow,
+      iconSize: [25, 41], // Default icon size
+      iconAnchor: [12, 41], // Anchor at the bottom center
+    });
+    L.Marker.prototype.options.icon = DefaultIcon;
+
+    // Initialize the map if it hasn't been created yet
+    if (!mapRef.current) {
+      mapRef.current = L.map("map").setView([0, 0], 16);
+
+      // Add OpenStreetMap tiles
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "OpenStreetMap contributors",
+      }).addTo(mapRef.current);
+    }
+
+    // Function to update the marker based on the user's current location
+    const updateLocation = (latitude, longitude) => {
+      // Set the map view to the current location
+      mapRef.current.setView([latitude, longitude], 16);
+
+      // Update or create a marker at the user's location
+      if (markerRef.current) {
+        markerRef.current.setLatLng([latitude, longitude]);
+      } else {
+        markerRef.current = L.marker([latitude, longitude], {
+          title: "Your Location",
+        }).addTo(mapRef.current);
+      }
+    };
+
+    // Geolocation API to track the user's position
+    if (navigator.geolocation) {
+      const watchId = navigator.geolocation.watchPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          updateLocation(latitude, longitude);
+        },
+        (error) => {
+          console.error("Error getting location:", error);
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 0,
+        }
+      );
+
+      // Cleanup geolocation watcher and map on unmount
+      return () => {
+        navigator.geolocation.clearWatch(watchId);
+        if (mapRef.current) {
+          mapRef.current.remove();
+          mapRef.current = null;
+        }
+      };
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
+  }, []);
+
+  // Handle click on the custom location marker
+  const handleLocationClick = () => {
+    if (markerRef.current) {
+      mapRef.current.removeLayer(markerRef.current);
+      markerRef.current = null; // Clear previous marker
+    }
+    // Update the location and set a new marker
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          mapRef.current.setView([latitude, longitude], 16);
+          markerRef.current = L.marker([latitude, longitude], {
+            title: "Your Location",
+          }).addTo(mapRef.current);
+        },
+        (error) => {
+          console.error("Error getting location:", error);
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 0,
+        }
+      );
+    }
+  };
+
+  return (
+    <>
+      <div id="map" style={{ height: "100vh", width: "100%" }} />
+      {/* Custom location marker */}
+      <img
+        src={currentLocationMarker}
+        alt="Current Location"
+        style={{
+          position: "absolute",
+          bottom: "20px",
+          right: "20px",
+          width: "50px",
+          height: "50px",
+          cursor: "pointer",
+          zIndex: 1000,
+        }}
+        onClick={handleLocationClick}
+      />
+    </>
+  );
+};
+
+export default LiveLocationWithMarker;

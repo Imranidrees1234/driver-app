@@ -1,0 +1,75 @@
+import React, { useEffect, useRef } from "react";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
+import { io } from "socket.io-client";
+
+// Fix for default Leaflet icon not showing
+import markerIcon from "leaflet/dist/images/marker-icon.png";
+import markerShadow from "leaflet/dist/images/marker-shadow.png";
+
+const LiveLocation = () => {
+  const mapRef = useRef(null);
+  const markerRef = useRef(null);
+  const socket = useRef(null);
+
+  useEffect(() => {
+    // Set default Leaflet icon
+    const DefaultIcon = L.icon({
+      iconUrl: markerIcon,
+      shadowUrl: markerShadow,
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+    });
+    L.Marker.prototype.options.icon = DefaultIcon;
+
+    // Initialize map
+    if (!mapRef.current) {
+      mapRef.current = L.map("map").setView([0, 0], 16);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "OpenStreetMap contributors",
+      }).addTo(mapRef.current);
+    }
+
+    // Connect to WebSocket server
+    socket.current = io("http://localhost:5000");
+    socket.current.on("connect", () => {
+      console.log("Connected to WebSocket server");
+    });
+
+    // Track location updates
+    if (navigator.geolocation) {
+      const watchId = navigator.geolocation.watchPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          console.log("Driver's Location:", latitude, longitude);
+
+          // Update map view and marker
+          mapRef.current.setView([latitude, longitude], 16);
+          if (markerRef.current) {
+            markerRef.current.setLatLng([latitude, longitude]);
+          } else {
+            markerRef.current = L.marker([latitude, longitude], {
+              title: "Driver Location",
+            }).addTo(mapRef.current);
+          }
+
+          // Send coordinates to server
+          socket.current.emit("send-location", { latitude, longitude });
+        },
+        (error) => console.error("Geolocation Error:", error),
+        { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+      );
+
+      return () => {
+        navigator.geolocation.clearWatch(watchId);
+        socket.current.disconnect();
+      };
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
+  }, []);
+
+  return <div id="map" style={{ height: "100vh", width: "100%" }} />;
+};
+
+export default LiveLocation;

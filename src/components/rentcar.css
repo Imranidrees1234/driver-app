@@ -1,0 +1,136 @@
+.rent-car-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f9f9f9;
+}
+
+.rent-car-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 95%;
+  height: 60vh; /* Keep the container height as is */
+  max-width: 1200px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  gap: 20px;
+}
+
+.rent-car-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.car-image {
+  width: 100%;
+  max-width: 450px; /* Reduced maximum width */
+  height: 400px;  /* Set a fixed height for the image */
+  object-fit: cover; /* Ensure the image covers the area without distorting */
+  border-radius: 10px;
+}
+
+.rent-car-text {
+  flex: 1;
+}
+
+.rent-car-text h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.rent-car-text p {
+  font-size: 0.9rem;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.rent-car-text ul {
+  list-style-type: none;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.rent-car-text ul li {
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+  color: #444;
+}
+
+.btn-rent-now {
+  padding: 12px 30px;
+  font-size: 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .rent-car-content {
+    flex-direction: column;
+    height: auto; /* Adjust height for smaller screens */
+    padding: 20px;
+  }
+
+  .car-image {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .rent-car-text h2 {
+    font-size: 1.5rem;
+  }
+
+  .rent-car-text p {
+    font-size: 1rem;
+  }
+
+  .rent-car-text ul li {
+    font-size: 1rem;
+  }
+
+  .btn-rent-now {
+    font-size: 0.9rem;
+    padding: 10px 25px;
+  }
+}
+
+@media (max-width: 480px) {
+  .rent-car-container {
+    padding: 10px;
+  }
+
+  .rent-car-content {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .car-image {
+    max-width: 100%;
+    height: 300px; /* Adjust height for smaller devices */
+  }
+
+  .rent-car-text h2 {
+    font-size: 1.2rem;
+  }
+
+  .rent-car-text p {
+    font-size: 0.9rem;
+  }
+
+  .rent-car-text ul li {
+    font-size: 0.9rem;
+  }
+
+  .btn-rent-now {
+    font-size: 0.8rem;
+    padding: 8px 20px;
+  }
+}

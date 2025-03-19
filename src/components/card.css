@@ -1,0 +1,33 @@
+/* Enhanced box shadow for better display */
+.card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* Stronger shadow for a better effect */
+  transition: box-shadow 0.3s ease; /* Adds smooth transition on hover */
+}
+
+.card:hover {
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2); /* Deeper shadow on hover for interactivity */
+}
+
+.card-img-top {
+  width: 100%;
+  height: 200px; /* Set fixed height for all images */
+  object-fit: cover; /* Ensures the image fills the space proportionally */
+  display: block; /* Ensures no gaps or extra space */
+}
+
+.card-body {
+  padding: 15px;
+}
+
+.card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.card-text {
+  font-size: 1rem;
+  color: #555;
+}

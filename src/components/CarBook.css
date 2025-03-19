@@ -1,0 +1,113 @@
+/* Container for the car booking form and image */
+.carbook-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 130vh; /* Full viewport height */
+  padding: 20px;
+  flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+}
+
+/* Style for the image */
+.carbook-image {
+  flex: 1;
+  max-width: 50%; /* Ensure image doesn't take up more than half the width */
+  height: auto;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+/* Form container */
+.form-container {
+  flex: 1;
+  max-width: 40%; /* Form container takes up 40% of the screen */
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+  border-radius: 5px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Form heading style */
+.form-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Style for form input fields */
+.form-container input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+/* Style for the submit button */
+.form-container button {
+  width: 100%;
+  padding: 12px;
+  background-color: #4CAF50; /* Green color */
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Button hover effect */
+.form-container button:hover {
+  background-color: #45a049;
+}
+
+/* Responsive Design for Tablets and Smaller Screens */
+@media (max-width: 768px) {
+  .carbook-container {
+    flex-direction: column;
+    height: auto; /* Adjust height for smaller screens */
+    padding: 20px 10px;
+  }
+
+  .carbook-image {
+    max-width: 100%;
+    height: auto; /* Allow image to scale */
+    margin-bottom: 20px;
+  }
+
+  .form-container {
+    max-width: 100%; /* Form takes full width */
+  }
+  
+  .form-container h2 {
+    font-size: 1.5rem;
+  }
+
+  .form-container input,
+  .form-container button {
+    font-size: 14px;
+  }
+}
+
+/* Responsive Design for Mobile Phones */
+@media (max-width: 480px) {
+  .carbook-container {
+    padding: 20px 5px;
+  }
+
+  .form-container {
+    padding: 15px;
+  }
+
+  .form-container h2 {
+    font-size: 1.3rem;
+  }
+
+  .form-container input,
+  .form-container button {
+    font-size: 14px;
+  }
+
+  .form-container button {
+    padding: 10px;
+  }
+}
