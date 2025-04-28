@@ -31,7 +31,7 @@ const LiveLocation = () => {
     }
 
     // Connect to WebSocket server
-    socket.current = io("https://livelocation-backend-production.up.railway.app/");
+    socket.current = io("https://location-backend-production.up.railway.app/");
 
     socket.current.on("connect", () => {
       console.log("Connected to WebSocket server");
