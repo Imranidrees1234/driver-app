@@ -8,7 +8,7 @@ const VideoVerification = () => {
   const [driverId] = useState("driver123");
 
   useEffect(() => {
-    socket.current = io("https://admin-backend-production-4ca3.up.railway.app/");
+    socket.current = io("https://database-backend-production.up.railway.app/");
 
     socket.current.emit("register_driver", driverId);
     console.log(`📌 Driver registered: ${driverId}`);
